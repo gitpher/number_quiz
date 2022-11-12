@@ -1,4 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
+// 배운점
+// Expanded()는 요소를 화면에 차지할 수 있는 최대 크기로 늘려줌
 
 void main() {
   runApp(const MyApp());
@@ -17,8 +21,22 @@ class MyApp extends StatelessWidget {
 }
 
 /// 홈 페이지
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  /// Numbers API 호출하기
+  Future<String> getNumberTrivia() async {
+    // get 메소드로 URL 호출
+    Response result = await Dio().get('http://numbersapi.com/random/trivia');
+    String trivia = result.data; // 응답 결과 가져오기
+    print(trivia);
+    return trivia;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +76,7 @@ class HomePage extends StatelessWidget {
                 ),
                 onPressed: () {
                   // New Quiz 클릭시 퀴즈 가져오기
+                  getNumberTrivia();
                 },
               ),
             ),
